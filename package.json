@@ -1,14 +1,14 @@
 {
   "name": "babel-project-root-import",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/plugin.js",
   "scripts": {
     "test": "mocha tests --compilers js:babel-core/register",
     "build": "babel src/ -d dist/"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Till Hagger <till.hagger@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "babel": "^6.3.26"
   },
@@ -16,6 +16,7 @@
     "babel-cli": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-stage-1": "^6.3.13",
-    "chai": "^3.4.1"
+    "chai": "^3.4.1",
+    "eslint": "^1.10.3"
   }
 }

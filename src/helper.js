@@ -10,9 +10,9 @@ export function normalizeSourceRoot(sourceRoot, suffix = '') {
 }
 
 export function normalizeFilename(filename, sourceRoot) {
-  if (typeof filename != 'string') filename = undefined
+  if (typeof filename != 'string') return null
   if (typeof sourceRoot != 'string') return null
-  if (!filename || filename == 'unknown') return null
+  if (filename == 'unknown') return null
 
   // babel-loader supplies an absolute path as filename
   // so we need to check for that.
@@ -36,6 +36,7 @@ export function transformPath(importPath, filePath, sourceRoot) {
 
   const absoluteImportPath = dirname(join(sourceRoot, importPath))
   const absoluteFilePath = dirname(join(sourceRoot, filePath))
+  const relativeImportPath = relative(absoluteFilePath, absoluteImportPath)
 
-  return './' + join(relative(absoluteFilePath, absoluteImportPath), importPathName)
+  return './' + join(relativeImportPath, importPathName)
 }

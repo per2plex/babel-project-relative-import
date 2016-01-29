@@ -1,5 +1,5 @@
 {
-  "name": "babel-project-root-import",
+  "name": "babel-project-relative-import",
   "version": "1.0.0",
   "description": "",
   "main": "dist/plugin.js",

@@ -1,6 +1,6 @@
 {
   "name": "babel-project-relative-import",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "repository": "per2plex/babel-project-relative-import",
   "description": "Babel plugin to transform project relative import paths to file relative import paths.",
   "main": "dist/plugin.js",
@@ -14,9 +14,6 @@
   },
   "author": "Till Hagger <till.hagger@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "babel": "^6.3.26"
-  },
   "devDependencies": {
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",

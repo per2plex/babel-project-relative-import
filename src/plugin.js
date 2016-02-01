@@ -1,7 +1,7 @@
 import {
   normalizeSourceRoot, normalizeFilename,
   checkAndRemovePrefix, transformPath
-} from '../src/helper'
+} from './helper'
 
 export default function() {
   return {

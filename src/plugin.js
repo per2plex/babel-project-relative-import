@@ -7,11 +7,11 @@ export default function() {
   return {
     visitor: {
       ImportDeclaration(path, state) {
-        const projectPathSuffix = typeof state.opts.projectPathSuffix == 'string' ?
+        const projectPathSuffix = typeof state.opts.projectPathSuffix === 'string' ?
           state.opts.projectPathSuffix :
           ''
 
-        const importPathPrefix = typeof state.opts.importPathPrefix == 'string' ?
+        const importPathPrefix = typeof state.opts.importPathPrefix === 'string' ?
           state.opts.importPathPrefix + '/':
           '~/'
 
@@ -19,8 +19,6 @@ export default function() {
           state.file.opts.sourceRoot, projectPathSuffix
         )
 
-        // Tried to use filenameRelative but it doesn't seem to be set correctly
-        // by any major wrapper for babel.
         const filename = normalizeFilename(
           state.file.opts.filename,
           sourceRoot

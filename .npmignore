@@ -1,6 +1,2 @@
 /src
 /tests
-
-.babelrc
-.codeclimate.yml
-.travis.yml

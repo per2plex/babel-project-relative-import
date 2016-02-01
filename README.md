@@ -1,9 +1,10 @@
 # Babel Project Relative Import
 
-[![build](https://travis-ci.org/per2plex/babel-project-relative-import.svg?branch=master)](https://travis-ci.org/per2plex/babel-project-relative-import)
-[![dependencies](https://david-dm.org/per2plex/babel-project-relative-import.svg)](https://david-dm.org/per2plex/babel-project-relative-import)
-[![devDependency Status](https://david-dm.org/per2plex/babel-project-relative-import/dev-status.svg)](https://david-dm.org/per2plex/babel-project-relative-import#info=devDependencies)
-[![code climate](https://codeclimate.com/github/per2plex/babel-project-relative-import/badges/gpa.svg)](https://codeclimate.com/github/per2plex/babel-project-relative-import)
+[![npm][npm-badge]][npm-url]
+[![build][travis-badge]][travis-url]
+[![dependencies][david-badge]][david-url]
+[![devDependency Status][david-dev-badge]][david-dev-url]
+[![coverage][coverage-badge]][coverage-url]
 
 Babel plugin to transform project relative import paths to file relative import paths.
 Highly inspired by [babel-root-import](https://github.com/michaelzoidl/babel-root-import)
@@ -81,3 +82,18 @@ can set this option, defaults to `~`.
   ]
 }
 ```
+
+[npm-url]: https://www.npmjs.com/package/babel-project-relative-import
+[npm-badge]: https://img.shields.io/npm/v/babel-project-relative-import.svg
+
+[travis-url]: https://travis-ci.org/per2plex/babel-project-relative-import
+[travis-badge]: https://img.shields.io/travis/per2plex/babel-project-relative-import/master.svg
+
+[david-dev-url]: https://david-dm.org/per2plex/babel-project-relative-import
+[david-dev-badge]: https://img.shields.io/david/dev/per2plex/babel-project-relative-import.svg
+
+[david-url]: https://david-dm.org/per2plex/babel-project-relative-import
+[david-badge]: https://img.shields.io/david/per2plex/babel-project-relative-import.svg
+
+[coverage-url]: https://coveralls.io/github/per2plex/babel-project-relative-import
+[coverage-badge]: https://img.shields.io/coveralls/per2plex/babel-project-relative-import/master.svg

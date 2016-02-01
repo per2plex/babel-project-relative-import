@@ -1,7 +1,8 @@
 {
   "name": "babel-project-relative-import",
   "version": "0.3.0",
-  "description": "",
+  "repository": "per2plex/babel-project-relative-import",
+  "description": "Babel plugin to transform project relative import paths to file relative import paths.",
   "main": "dist/plugin.js",
   "scripts": {
     "test": "mocha tests --compilers js:babel-core/register",

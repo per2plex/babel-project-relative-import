@@ -36,7 +36,7 @@ import Test from '../../otherdir/subdir/example.js'
 ## Install
 
 ```
-npm install babel-project-root-import
+npm install babel-project-relative-import
 ```
 
 ## Usage

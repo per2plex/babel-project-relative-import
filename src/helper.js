@@ -6,21 +6,30 @@ export function normalizeSourceRoot(sourceRoot, suffix = '') {
 
   if (!sourceRoot) sourceRoot = process.cwd()
 
-  return join(sourceRoot, suffix)
+  return [
+    sourceRoot,
+    join(sourceRoot, suffix)
+  ]
 }
 
-export function normalizeFilename(filename, sourceRoot) {
+export function normalizeFilename(filename, sourceRoot, suffixedSourceRoot) {
   if (typeof filename !== 'string') return null
   if (typeof sourceRoot !== 'string') return null
+  if (typeof suffixedSourceRoot !== 'string') return null
+
   if (filename === 'unknown') return null
 
-  // babel-loader supplies an absolute path as filename
+  let absoluteFilename = null
+
+  // Some babel wrappers supply an absolute path already
   // so we need to check for that.
   if (isAbsolute(filename)) {
-    return relative(sourceRoot, filename)
+    absoluteFilename = filename
+  } else {
+    absoluteFilename = join(sourceRoot, filename)
   }
 
-  return filename
+  return relative(suffixedSourceRoot, absoluteFilename)
 }
 
 export function checkAndRemovePrefix(path, prefix) {

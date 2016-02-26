@@ -8,51 +8,81 @@ import {
 
 describe('Helper', () => {
   describe('normalizeSourceRoot', () => {
-    it('should append suffix to path', () => {
-      const sourceRoot = '/project/root/path'
+    it('should return suffixed and non-suffixed sourceRoot', () => {
+      const inputSourceRoot = '/project/root/path'
       const suffix = 'src'
 
-      expect(normalizeSourceRoot(sourceRoot, suffix))
-        .to.be.equal('/project/root/path/src')
+      {
+        const [sourceRoot, suffixedSourceRoot] =
+          normalizeSourceRoot(inputSourceRoot, suffix)
+
+        expect(sourceRoot).to.be.equal('/project/root/path')
+        expect(suffixedSourceRoot).to.be.equal('/project/root/path/src')
+      }
+
+      {
+        const [sourceRoot, suffixedSourceRoot] =
+          normalizeSourceRoot(inputSourceRoot)
+
+        expect(sourceRoot).to.be.equal('/project/root/path')
+        expect(suffixedSourceRoot).to.be.equal('/project/root/path')
+      }
     })
 
     it('should use process.cwd() when sourceRoot is a non-string', () => {
-      const expectedPath = join(process.cwd(), 'src')
+      const expectedSourceRoot = process.cwd()
+      const expectedSuffixedSourceRoot = join(expectedSourceRoot, 'src')
 
-      expect(normalizeSourceRoot(undefined, 'src')).to.be.equal(expectedPath)
-      expect(normalizeSourceRoot({}, 'src')).to.be.equal(expectedPath)
+      {
+        const [sourceRoot, suffixSourceRoot] =
+          normalizeSourceRoot(undefined, 'src')
+
+        expect(sourceRoot).to.be.equal(expectedSourceRoot)
+        expect(suffixSourceRoot).to.be.equal(expectedSuffixedSourceRoot)
+      }
+
+      {
+        const [sourceRoot, suffixSourceRoot] =
+          normalizeSourceRoot({}, 'src')
+
+        expect(sourceRoot).to.be.equal(expectedSourceRoot)
+        expect(suffixSourceRoot).to.be.equal(expectedSuffixedSourceRoot)
+      }
     })
   })
 
   describe('normalizeFilename', () => {
-    it('should return input if filename is relative', () => {
+    it('should return filename relative to suffixedSourceRoot', () => {
       const sourceRoot = '/project/root/path'
-      const filename = 'dir/subdir/test.js'
+      const suffixedSourceRoot = '/project/root/path/src'
+      const filename = 'src/dir/subdir/test.js'
 
-      expect(normalizeFilename(filename, sourceRoot)).to.be.equal(filename)
+      expect(
+        normalizeFilename(filename, sourceRoot, suffixedSourceRoot)
+      ).to.be.equal('dir/subdir/test.js')
     })
 
-    it('should return a relative filename if input is absolute', () => {
+    it('should return filename relative to suffixedSourceRoot if input is absolute', () => {
       const sourceRoot = '/project/root/path'
-      const filename = '/project/root/path/dir/subdir/test.js'
+      const suffixedSourceRoot = '/project/root/path/src'
+      const filename = '/project/root/path/src/dir/subdir/test.js'
 
-      expect(normalizeFilename(filename, sourceRoot))
+      expect(normalizeFilename(filename, sourceRoot, suffixedSourceRoot))
         .to.be.equal('dir/subdir/test.js')
     })
 
     it('should return null if filename is "unknown"', () => {
       const sourceRoot = '/project/root/path'
+      const suffixedSourceRoot = '/project/root/path/src'
       const filename = 'unknown'
 
-      expect(normalizeFilename(filename, sourceRoot)).to.be.null
+      expect(normalizeFilename(filename, sourceRoot, suffixedSourceRoot)).to.be.null
     })
 
-    it('should return null if filename or sourceRoot are non-strings', () => {
-      const sourceRoot = {}
-      const filename = 1
-
-      expect(normalizeFilename(filename, '/')).to.be.null
-      expect(normalizeFilename('/', sourceRoot)).to.be.null
+    it('should return null if filename, sourceRoot or suffixedSourceRoot are non-strings', () => {
+      expect(normalizeFilename(1, '/', '/')).to.be.null
+      expect(normalizeFilename('/', {}, '/')).to.be.null
+      expect(normalizeFilename('/', '/', undefined)).to.be.null
     })
   })
 

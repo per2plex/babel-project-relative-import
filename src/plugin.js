@@ -15,13 +15,14 @@ export default function() {
           state.opts.importPathPrefix + '/':
           '~/'
 
-        const sourceRoot = normalizeSourceRoot(
+        const [sourceRoot, suffixedSourceRoot] = normalizeSourceRoot(
           state.file.opts.sourceRoot, projectPathSuffix
         )
 
         const filename = normalizeFilename(
           state.file.opts.filename,
-          sourceRoot
+          sourceRoot,
+          suffixedSourceRoot
         )
 
         if (!filename) return

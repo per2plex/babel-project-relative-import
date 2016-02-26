@@ -9,7 +9,8 @@
     "import",
     "relative",
     "project",
-    "root"
+    "root",
+    "windows"
   ],
   "main": "dist/plugin.js",
   "scripts": {

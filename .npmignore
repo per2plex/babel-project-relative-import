@@ -2,6 +2,7 @@
 /test
 /coverage
 
+appveyor.yml
 .istanbul.yml
 .travis.yml
 .babelrc

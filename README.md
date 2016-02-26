@@ -2,8 +2,9 @@
 
 [![npm][npm-badge]][npm-url]
 [![build][travis-badge]][travis-url]
+[![windows build][appveyor-badge]][appveyor-url]
 [![dependencies][david-badge]][david-url]
-[![devDependency Status][david-dev-badge]][david-dev-url]
+[![devDependencies][david-dev-badge]][david-dev-url]
 [![coverage][coverage-badge]][coverage-url]
 
 Babel plugin to transform project relative import paths to file relative import paths.
@@ -12,8 +13,10 @@ which works great, but converts to absolute paths, so the built files are not
 portable accross systems.
 
 Tested with [babel-cli](https://www.npmjs.com/package/babel-cli),
-[babel-loader](https://www.npmjs.com/package/babel-loader) and
+[babel-loader](https://www.npmjs.com/package/babel-loader),
+[grunt-babel](https://www.npmjs.com/package/grunt-babel) and
 [gulp-babel](https://www.npmjs.com/package/gulp-babel).
+Does also transform to the same path under Windows.
 
 ## Example
 
@@ -27,10 +30,10 @@ import Test from '~/otherdir/subdir/example.js'
 Will be transformed to:
 ```javascript
 // project/dir/test.js
-import Test from '../otherdir/example.js'
+import Test from './../otherdir/example.js'
 
 // project/dir/subdir/test.js
-import Test from '../../otherdir/subdir/example.js'
+import Test from './../../otherdir/subdir/example.js'
 ```
 
 ## Install
@@ -88,6 +91,9 @@ can set this option, defaults to `~`.
 
 [travis-url]: https://travis-ci.org/per2plex/babel-project-relative-import
 [travis-badge]: https://img.shields.io/travis/per2plex/babel-project-relative-import/master.svg
+
+[appveyor-url]: https://ci.appveyor.com/project/per2plex/babel-project-relative-import
+[appveyor-badge]: https://img.shields.io/appveyor/ci/per2plex/babel-project-relative-import.svg?label=windows%20build
 
 [david-dev-url]: https://david-dm.org/per2plex/babel-project-relative-import
 [david-dev-badge]: https://img.shields.io/david/dev/per2plex/babel-project-relative-import.svg

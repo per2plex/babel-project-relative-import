@@ -1,3 +1,5 @@
+import slash from 'slash'
+
 import { join } from 'path'
 import { expect } from 'chai'
 
@@ -30,8 +32,8 @@ describe('Helper', () => {
     })
 
     it('should use process.cwd() when sourceRoot is a non-string', () => {
-      const expectedSourceRoot = process.cwd()
-      const expectedSuffixedSourceRoot = join(expectedSourceRoot, 'src')
+      const expectedSourceRoot = slash(process.cwd())
+      const expectedSuffixedSourceRoot = slash(join(expectedSourceRoot, 'src'))
 
       {
         const [sourceRoot, suffixSourceRoot] =

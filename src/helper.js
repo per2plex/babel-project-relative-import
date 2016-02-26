@@ -1,3 +1,4 @@
+import slash from 'slash'
 import { join, basename, dirname, relative, isAbsolute } from 'path'
 
 export function normalizeSourceRoot(sourceRoot, suffix = '') {
@@ -7,8 +8,8 @@ export function normalizeSourceRoot(sourceRoot, suffix = '') {
   if (!sourceRoot) sourceRoot = process.cwd()
 
   return [
-    sourceRoot,
-    join(sourceRoot, suffix)
+    slash(sourceRoot),
+    slash(join(sourceRoot, suffix))
   ]
 }
 
@@ -29,7 +30,7 @@ export function normalizeFilename(filename, sourceRoot, suffixedSourceRoot) {
     absoluteFilename = join(sourceRoot, filename)
   }
 
-  return relative(suffixedSourceRoot, absoluteFilename)
+  return slash(relative(suffixedSourceRoot, absoluteFilename))
 }
 
 export function checkAndRemovePrefix(path, prefix) {
@@ -47,5 +48,5 @@ export function transformPath(importPath, filePath, sourceRoot) {
   const absoluteFilePath = dirname(join(sourceRoot, filePath))
   const relativeImportPath = relative(absoluteFilePath, absoluteImportPath)
 
-  return './' + join(relativeImportPath, importPathName)
+  return './' + slash(join(relativeImportPath, importPathName))
 }

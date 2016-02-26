@@ -1,2 +1,7 @@
 /src
-/tests
+/test
+/coverage
+
+.instanbul.yml
+.travis.yml
+.babelrc

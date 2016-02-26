@@ -2,6 +2,6 @@
 /test
 /coverage
 
-.instanbul.yml
+.istanbul.yml
 .travis.yml
 .babelrc

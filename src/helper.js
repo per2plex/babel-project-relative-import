@@ -34,7 +34,7 @@ export function normalizeFilename(filename, sourceRoot, suffixedSourceRoot) {
 }
 
 export function checkAndRemovePrefix(path, prefix) {
-  if (path.startsWith(prefix)) {
+  if (path.lastIndexOf(prefix, 0) === 0) {
     return path.substring(prefix.length)
   } else {
     return null

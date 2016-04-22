@@ -38,7 +38,7 @@ export default function () {
           const absoluteSourcePath = getAbsoluteSourcePath(config.projectRoot, sourcePath)
           const relativeImportPath = relative(dirname(absoluteSourcePath), absoluteImportPath)
 
-          path.node.source.value = './' + relativeImportPath
+          path.node.source.value = './' + slash(relativeImportPath)
         }
       }
 
@@ -46,7 +46,7 @@ export default function () {
   }
 }
 
-const extractConfig = (state) => {
+function extractConfig (state) {
   return {
     projectRoot: state.file.opts.sourceRoot || process.cwd(),
     prefix: state.opts.importPathPrefix || '~/',
@@ -54,12 +54,12 @@ const extractConfig = (state) => {
   }
 }
 
-const unixifyPaths = (config) => {
+function unixifyPaths (config) {
   config.projectRoot = slash(config.projectRoot)
   config.suffix = slash(config.suffix)
 }
 
-const invariants = (state) => {
+function invariants (state) {
   if (typeof state.suffix !== 'string') {
     throw new Error('The projectPathSuffix provided is not a string')
   }
@@ -69,11 +69,11 @@ const invariants = (state) => {
   }
 }
 
-const isImportPathPrefixed = (targetPath, prefix) => {
+function isImportPathPrefixed (targetPath, prefix) {
   return (targetPath.lastIndexOf(prefix, 0) === 0)
 }
 
-const getAbsoluteImportPath = (importPath, config) => {
+function getAbsoluteImportPath (importPath, config) {
   const importPathWithoutPrefix = importPath.substring(config.prefix.length)
   const suffixedProjectPath = join(config.projectRoot, config.suffix)
   return join(suffixedProjectPath, importPathWithoutPrefix)

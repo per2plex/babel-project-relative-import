@@ -6,6 +6,7 @@
 [![dependencies][david-badge]][david-url]
 [![devDependencies][david-dev-badge]][david-dev-url]
 [![coverage][coverage-badge]][coverage-url]
+[![code style][code-style-badge]][code-style-url]
 
 Babel plugin to transform project relative import paths to file relative import paths.
 Highly inspired by [babel-root-import](https://github.com/michaelzoidl/babel-root-import)
@@ -17,6 +18,16 @@ Tested with [babel-cli](https://www.npmjs.com/package/babel-cli),
 [grunt-babel](https://www.npmjs.com/package/grunt-babel) and
 [gulp-babel](https://www.npmjs.com/package/gulp-babel).
 Does also transform to the same path under Windows.
+
+## Upgrade from 1.x
+
+There are two breaking changes:
+
+1. Renamed option `projectPathSuffix` to `sourceDir` to be less confusing.
+2. The option `importPathPrefix` automatically added a `/` to the supplied
+   prefix in previous versions, this has been removed and allows for prefixes
+   like `^dir/test`. Just add the `/` to your `importPathPrefix` yourself for the
+   old behaviour.
 
 ## Example
 
@@ -56,7 +67,7 @@ Add babel-project-root-import to your plugins in your `babel.rc`:
 
 ## Plugin Options
 
-### projectPathSuffix
+### sourceDir
 
 If all your source files are inside a subdirectory set this option to the path
 of the subdirectory so paths get resolved correctly.
@@ -65,7 +76,7 @@ of the subdirectory so paths get resolved correctly.
 {
   "plugins": [
     ["babel-project-relative-import", {
-      "projectPathSuffix": "src/"
+      "sourceDir": "src/"
     }]
   ]
 }
@@ -74,7 +85,7 @@ of the subdirectory so paths get resolved correctly.
 ### importPathPrefix
 
 If you want to have a custom prefix which will be used to detect imports, you
-can set this option, defaults to `~`.
+can set this option, defaults to `~/`.
 
 ```json
 {
@@ -103,3 +114,6 @@ can set this option, defaults to `~`.
 
 [coverage-url]: https://coveralls.io/github/per2plex/babel-project-relative-import
 [coverage-badge]: https://img.shields.io/coveralls/per2plex/babel-project-relative-import/master.svg
+
+[code-style-url]: http://standardjs.com/
+[code-style-badge]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg

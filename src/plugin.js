@@ -1,25 +1,18 @@
-import {
-  dirname,
-  join,
-  relative,
-  isAbsolute
-} from 'path'
+import { dirname, join, relative, isAbsolute } from 'path'
 import slash from 'slash'
 
 export default function () {
   return {
     visitor: {
       ImportDeclaration (path, state) {
-        /*
-         * config: {
-         * projectRoot: babel option sourceRoot or process.cwd as fallback
-         * prefix: importPathPrefix provided by the user in the plugin config
-         * suffix: projectPathSuffix provided by the user in the plugin config
-         * }
-         */
+        // config: {
+        //   projectRoot: babel option sourceRoot or process.cwd as fallback
+        //   importPathPrefix: import path prefix provided by the user in the plugin config
+        //   sourceDir: source directory provided by the user in the plugin config
+        // }
         const config = extractConfig(state)
 
-        // file currently visited
+        // File currently visited
         const sourcePath = state.file.opts.filename
 
         if (sourcePath === 'unknown') {
@@ -27,12 +20,11 @@ export default function () {
         }
 
         invariants(config)
-        unixifyPaths(config) // works on windows too according to slash's doc
 
-        // string in the import statement
+        // Path in the import statement
         const importPath = path.node.source.value
 
-        if (isImportPathPrefixed(importPath, config.prefix)) {
+        if (isImportPathPrefixed(importPath, config.importPathPrefix)) {
           const absoluteImportPath = getAbsoluteImportPath(importPath, config)
 
           const absoluteSourcePath = getAbsoluteSourcePath(config.projectRoot, sourcePath)
@@ -41,7 +33,6 @@ export default function () {
           path.node.source.value = './' + slash(relativeImportPath)
         }
       }
-
     }
   }
 }
@@ -49,23 +40,18 @@ export default function () {
 function extractConfig (state) {
   return {
     projectRoot: state.file.opts.sourceRoot || process.cwd(),
-    prefix: state.opts.importPathPrefix || '~/',
-    suffix: state.opts.projectPathSuffix || ''
+    importPathPrefix: state.opts.importPathPrefix || '~/',
+    sourceDir: state.opts.sourceDir || ''
   }
-}
-
-function unixifyPaths (config) {
-  config.projectRoot = slash(config.projectRoot)
-  config.suffix = slash(config.suffix)
 }
 
 function invariants (state) {
-  if (typeof state.suffix !== 'string') {
-    throw new Error('The projectPathSuffix provided is not a string')
+  if (typeof state.sourceDir !== 'string') {
+    throw new Error('The "sourceDir" provided is not a string')
   }
 
-  if (typeof state.prefix !== 'string') {
-    throw new Error('The projectPathSuffix provided is not a string')
+  if (typeof state.importPathPrefix !== 'string') {
+    throw new Error('The "importPathPrefix" provided is not a string')
   }
 }
 
@@ -74,8 +60,9 @@ function isImportPathPrefixed (targetPath, prefix) {
 }
 
 function getAbsoluteImportPath (importPath, config) {
-  const importPathWithoutPrefix = importPath.substring(config.prefix.length)
-  const suffixedProjectPath = join(config.projectRoot, config.suffix)
+  const importPathWithoutPrefix = importPath.substring(config.importPathPrefix.length)
+  const suffixedProjectPath = join(config.projectRoot, config.sourceDir)
+
   return join(suffixedProjectPath, importPathWithoutPrefix)
 }
 

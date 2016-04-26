@@ -1,6 +1,5 @@
-/* global describe, it */
-
 import { transform } from 'babel-core'
+import { describe, it } from 'mocha'
 import { expect } from 'chai'
 
 import rootImportPlugin from '../src/plugin'
@@ -32,19 +31,19 @@ describe('Plugin', () => {
   })
 
   describe('should transform the project relative path to a file relative path', () => {
-    it('with a custom suffix', () => {
+    it('with a custom sourceDir', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
-          filename: 'otherdir/test.js',
+          filename: 'bla/otherdir/test.js',
           sourceRoot: '/project/root/',
-          plugins: [ [ rootImportPlugin, { projectPathSuffix: '/bla' } ] ]
+          plugins: [ [ rootImportPlugin, { sourceDir: 'bla/' } ] ]
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../bla/dir/test\"')
+      expect(transformedCode.code).to.contain('\"./../dir/test\"')
     })
 
-    it('with a custom prefix', () => {
+    it('with a custom importPathPrefix', () => {
       const transformedCode = transform(
         'import Test from "^dir/test"', {
           filename: 'otherdir/test.js',
@@ -93,12 +92,12 @@ describe('Plugin', () => {
   })
 
   describe('should throw an error', () => {
-    it('when the provided suffix option is not a string', () => {
+    it('when the provided sourceDir option is not a string', () => {
       const transformCode = () => {
         transform(
           'import Test from "~/dir/test"', {
             filename: 'otherdir/test.js',
-            plugins: [[ rootImportPlugin, { projectPathSuffix: {} } ]]
+            plugins: [[ rootImportPlugin, { sourceDir: {} } ]]
           }
         )
       }
@@ -106,7 +105,7 @@ describe('Plugin', () => {
       expect(transformCode).to.throw(Error)
     })
 
-    it('when the provided prefix option is not a string', () => {
+    it('when the provided importPathPrefix option is not a string', () => {
       const transformCode = () => {
         transform(
           'import Test from "~/dir/test"', {

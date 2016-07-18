@@ -28,6 +28,18 @@ describe('Plugin', () => {
 
       expect(transformedCode.code).to.contain('\"~/dir/test\"')
     })
+
+    it('when require path does not start with string/template', () => {
+      const transformedCode = transform(
+        'const Test = require(myVar + "/foo")', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('myVar + \"/foo\"')
+    })
   })
 
   describe('should transform the project relative path to a file relative path', () => {

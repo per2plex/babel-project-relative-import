@@ -20,6 +20,7 @@ export default function ({types: t}) {
         invariants(config)
 
         const firstArg = traverseExpression(t, args[0])
+        if (!firstArg) { return }
         const importPath = firstArg.value.raw || firstArg.value
         if (isImportPathPrefixed(importPath, config.importPathPrefix)) {
           let newValue = getNewValue(config, sourcePath, importPath)
@@ -80,7 +81,6 @@ function getNewValue (config, sourcePath, importPath) {
   const absoluteImportPath = getAbsoluteImportPath(importPath, config)
   const absoluteSourcePath = getAbsoluteSourcePath(config.projectRoot, sourcePath)
   const relativeImportPath = relative(dirname(absoluteSourcePath), absoluteImportPath)
-  console.log(importPath, absoluteImportPath, absoluteSourcePath, relativeImportPath)
   return './' + slash(relativeImportPath)
 }
 

@@ -17,6 +17,17 @@ describe('Plugin', () => {
       expect(transformedCode.code).to.contain('\"~/dir/test\"')
     })
 
+    it('without filename set (require)', () => {
+      const transformedCode = transform(
+        'const Test = require("~/dir/test")', {
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('\"~/dir/test\"')
+    })
+
     it('when import path is not prefixed', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {

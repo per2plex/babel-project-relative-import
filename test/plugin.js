@@ -17,6 +17,17 @@ describe('Plugin', () => {
       expect(transformedCode.code).to.contain('\"~/dir/test\"')
     })
 
+    it('without filename set (require)', () => {
+      const transformedCode = transform(
+        'const Test = require("~/dir/test")', {
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('\"~/dir/test\"')
+    })
+
     it('when import path is not prefixed', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
@@ -27,6 +38,18 @@ describe('Plugin', () => {
       )
 
       expect(transformedCode.code).to.contain('\"~/dir/test\"')
+    })
+
+    it('when require path does not start with string/template', () => {
+      const transformedCode = transform(
+        'const Test = require(myVar + "/foo")', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('myVar + \"/foo\"')
     })
   })
 
@@ -88,6 +111,54 @@ describe('Plugin', () => {
       )
 
       expect(transformedCode.code).to.contain('\"./../dir/test\"')
+    })
+
+    it('for string require', () => {
+      const transformedCode = transform(
+        'const Test = require("~/dir/test")', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+    })
+
+    it('for a require with expression starting with prefix', () => {
+      const transformedCode = transform(
+        'const Test = require("~/" + "/test")', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('\"./../" + "/test\"')
+    })
+
+    it('for require that starts with string and has variable', () => {
+      const transformedCode = transform(
+        'const Test = require("~/foo" + myVar + "/test")', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('\"./../foo" + myVar + "/test\"')
+    })
+
+    it('for require with template string variable', () => {
+      const transformedCode = transform(
+        'const Test = require(`~/${myVar}`)', {
+          filename: '/project/root/otherdir/test.js',
+          sourceRoot: '/project/root/',
+          plugins: [ rootImportPlugin ]
+        }
+      )
+
+      expect(transformedCode.code).to.contain('`./../${ myVar }`')
     })
   })
 

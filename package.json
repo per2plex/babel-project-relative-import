@@ -31,11 +31,11 @@
     "babel-preset-stage-1": "^6.3.13",
     "chai": "^3.4.1",
     "coveralls": "^2.11.6",
-    "eslint": "^1.10.3",
+    "eslint": "^3.3.1",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.4.5",
-    "standard": "^6.0.8"
+    "mocha": "^3.0.2",
+    "standard": "^8.0.0"
   },
   "dependencies": {
     "slash": "^1.0.0"

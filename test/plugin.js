@@ -14,7 +14,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"~/dir/test\"')
+      expect(transformedCode.code).to.contain('"~/dir/test"')
     })
 
     it('when import path is not prefixed', () => {
@@ -26,7 +26,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"~/dir/test\"')
+      expect(transformedCode.code).to.contain('"~/dir/test"')
     })
   })
 
@@ -34,13 +34,13 @@ describe('Plugin', () => {
     it('with a custom sourceDir', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
-          filename: 'bla/otherdir/test.js',
+          filename: 'src/otherdir/test.js',
           sourceRoot: '/project/root/',
-          plugins: [ [ rootImportPlugin, { sourceDir: 'bla/' } ] ]
+          plugins: [ [ rootImportPlugin, { sourceDir: 'src/' } ] ]
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+      expect(transformedCode.code).to.contain('"./../dir/test"')
     })
 
     it('with a custom importPathPrefix', () => {
@@ -52,7 +52,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+      expect(transformedCode.code).to.contain('"./../dir/test"')
     })
 
     it('with a relative filename set', () => {
@@ -64,7 +64,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+      expect(transformedCode.code).to.contain('"./../dir/test"')
     })
 
     it('with an absolute filename set', () => {
@@ -76,7 +76,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+      expect(transformedCode.code).to.contain('"./../dir/test"')
     })
 
     it('without a sourceRoot set', () => {
@@ -87,7 +87,7 @@ describe('Plugin', () => {
         }
       )
 
-      expect(transformedCode.code).to.contain('\"./../dir/test\"')
+      expect(transformedCode.code).to.contain('"./../dir/test"')
     })
   })
 

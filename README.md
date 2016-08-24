@@ -9,15 +9,21 @@
 [![code style][code-style-badge]][code-style-url]
 
 Babel plugin to transform project relative import paths to file relative import paths.
-Highly inspired by [babel-root-import](https://github.com/michaelzoidl/babel-root-import)
-which works great, but converts to absolute paths, so the built files are not
-portable accross systems.
+Highly inspired by [babel-root-import](https://github.com/michaelzoidl/babel-root-import).
+~~which works great, but converts to absolute paths, so the built files are not
+portable accross systems.~~ (This has been changed and it supports relative output paths now, so maybe check it out!)
 
 Tested with [babel-cli](https://www.npmjs.com/package/babel-cli),
 [babel-loader](https://www.npmjs.com/package/babel-loader),
 [grunt-babel](https://www.npmjs.com/package/grunt-babel) and
 [gulp-babel](https://www.npmjs.com/package/gulp-babel).
 Does also transform to the same path under Windows.
+
+## Notice for Webpack users
+
+If you're using Webpack to bundle your application this plugin may not be needed.
+You can use Webpacks's [resolve.alias] for the same behaviour, which also works
+for `require`.
 
 ## Upgrade from 1.x
 
@@ -96,6 +102,8 @@ can set this option, defaults to `~/`.
   ]
 }
 ```
+
+[resolve.alias]: https://webpack.github.io/docs/configuration.html#resolve
 
 [npm-url]: https://www.npmjs.com/package/babel-project-relative-import
 [npm-badge]: https://img.shields.io/npm/v/babel-project-relative-import.svg

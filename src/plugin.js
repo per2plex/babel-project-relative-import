@@ -1,38 +1,9 @@
 import { dirname, join, relative, isAbsolute } from 'path'
 import slash from 'slash'
 
-export default function ({types: t}) {
+export default function () {
   return {
     visitor: {
-      CallExpression (path, state) {
-        if (path.node.callee.name !== 'require') { return }
-        const args = path.node.arguments
-        if (!args.length) { return }
-
-        const config = extractConfig(state)
-
-        const sourcePath = state.file.opts.filename
-
-        if (sourcePath === 'unknown') {
-          return
-        }
-
-        invariants(config)
-
-        const firstArg = traverseExpression(t, args[0])
-        if (!firstArg) { return }
-        const importPath = firstArg.value.raw || firstArg.value
-        if (isImportPathPrefixed(importPath, config.importPathPrefix)) {
-          let newValue = getNewValue(config, sourcePath, importPath)
-          newValue += importPath === config.importPathPrefix ? '/' : ''
-          if (typeof firstArg.value === 'object') {
-            firstArg.value.raw = newValue
-            firstArg.value.cooked = newValue
-          } else {
-            firstArg.value = newValue
-          }
-        }
-      },
       ImportDeclaration (path, state) {
         // config: {
         //   projectRoot: babel option sourceRoot or process.cwd as fallback
@@ -54,34 +25,16 @@ export default function ({types: t}) {
         const importPath = path.node.source.value
 
         if (isImportPathPrefixed(importPath, config.importPathPrefix)) {
-          path.node.source.value = getNewValue(config, sourcePath, importPath)
+          const absoluteImportPath = getAbsoluteImportPath(importPath, config)
+
+          const absoluteSourcePath = getAbsoluteSourcePath(config.projectRoot, sourcePath)
+          const relativeImportPath = relative(dirname(absoluteSourcePath), absoluteImportPath)
+
+          path.node.source.value = './' + slash(relativeImportPath)
         }
       }
     }
   }
-}
-
-function traverseExpression (t, arg) {
-  if (t.isStringLiteral(arg)) {
-    return arg
-  }
-  if (t.isBinaryExpression(arg)) {
-    return traverseExpression(t, arg.left)
-  }
-  if (t.isTemplateLiteral(arg)) {
-    return traverseExpression(t, arg.quasis[0])
-  }
-  if (t.isTemplateElement(arg)) {
-    return arg
-  }
-  return null
-}
-
-function getNewValue (config, sourcePath, importPath) {
-  const absoluteImportPath = getAbsoluteImportPath(importPath, config)
-  const absoluteSourcePath = getAbsoluteSourcePath(config.projectRoot, sourcePath)
-  const relativeImportPath = relative(dirname(absoluteSourcePath), absoluteImportPath)
-  return './' + slash(relativeImportPath)
 }
 
 function extractConfig (state) {

@@ -35,7 +35,6 @@ describe('Plugin', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
           filename: 'src/otherdir/test.js',
-          sourceRoot: '/project/root/',
           plugins: [ [ rootImportPlugin, { sourceDir: 'src/' } ] ]
         }
       )
@@ -47,7 +46,6 @@ describe('Plugin', () => {
       const transformedCode = transform(
         'import Test from "^dir/test"', {
           filename: 'otherdir/test.js',
-          sourceRoot: '/project/root/',
           plugins: [ [ rootImportPlugin, { importPathPrefix: '^' } ] ]
         }
       )
@@ -59,7 +57,6 @@ describe('Plugin', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
           filename: 'otherdir/test.js',
-          sourceRoot: '/project/root/',
           plugins: [ rootImportPlugin ]
         }
       )
@@ -71,8 +68,7 @@ describe('Plugin', () => {
       const transformedCode = transform(
         'import Test from "~/dir/test"', {
           filename: '/project/root/otherdir/test.js',
-          sourceRoot: '/project/root/',
-          plugins: [ rootImportPlugin ]
+          plugins: [ [ rootImportPlugin, { projectRoot: '/project/root/' } ] ]
         }
       )
 

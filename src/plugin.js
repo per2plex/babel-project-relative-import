@@ -39,7 +39,7 @@ export default function () {
 
 function extractConfig (state) {
   return {
-    projectRoot: state.file.opts.sourceRoot || process.cwd(),
+    projectRoot: state.opts.projectRoot || process.cwd(),
     importPathPrefix: state.opts.importPathPrefix || '~/',
     sourceDir: state.opts.sourceDir || ''
   }
